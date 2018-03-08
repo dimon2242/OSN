@@ -8,7 +8,6 @@
 
 #define TRUE 1
 #define FALSE 0
-#define MAXLENGTH 80
 #define MAXARGS 16
 
 #define PERMS 0666
@@ -36,7 +35,7 @@ int main() {
 
 		putchar('>');
 
-		while(charPosition != MAXLENGTH) {
+		while(lineIterator < MAXARGS) {
 			buffer = getchar();
 			if(buffer == EOF) {
 				putchar('\n');
