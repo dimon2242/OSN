@@ -19,7 +19,7 @@
 #define NOREDIR 2
 
 int main() {
-	char separators[] = {' ', '\n', '<', '>'};
+	char separators[] = {' ', '\n', '<', '>', '\0'};
 	while(TRUE) {
 		char *argv[MAXARGS + 1];
 		char *stringBuffer = NULL;
@@ -54,6 +54,7 @@ int main() {
 				}
 			}
 			if(strrchr(separators, buffer) == NULL) {
+				printf("Here\n");
 				/*
 				charPosition + 2 for ended null-terminator
 				*/
@@ -64,6 +65,7 @@ int main() {
 				}
 				stringBuffer[charPosition] = buffer;
 			} else {
+				
 				if(charPosition != 0) {
 					*(stringBuffer + charPosition) = '\0';			
 					if((redirectionState != NOREDIR) && !alreadySpaced) {
@@ -82,6 +84,7 @@ int main() {
 					charPosition = 0;
 					free(stringBuffer);
 					stringBuffer = NULL;
+
 					if(buffer == '\n') {
 						argv[lineIterator + 1] = NULL;
 						break;
