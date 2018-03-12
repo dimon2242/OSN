@@ -54,7 +54,6 @@ int main() {
 				}
 			}
 			if(strrchr(separators, buffer) == NULL) {
-				printf("Here\n");
 				/*
 				charPosition + 2 for ended null-terminator
 				*/
