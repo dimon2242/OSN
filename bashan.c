@@ -57,7 +57,7 @@ int main() {
 				/*
 				charPosition + 2 for ended null-terminator
 				*/
-				stringBuffer = (char*) realloc(stringBuffer, (charPosition + 2) * sizeof(char));
+				stringBuffer = (char*) realloc(stringBuffer, (charPosition + 1) * sizeof(char));
 				if(stringBuffer == NULL) {
 					perror("Error allocation of memory");
 					return EXIT_FAILURE;
@@ -69,10 +69,10 @@ int main() {
 					*(stringBuffer + charPosition) = '\0';			
 					if((redirectionState != NOREDIR) && !alreadySpaced) {
 						if(redirectionState == REDIR_OUT) {
-							outputFilename = (char*) malloc((charPosition + 2) * sizeof(char));
+							outputFilename = (char*) malloc((charPosition + 1) * sizeof(char));
 							strcpy(outputFilename, stringBuffer);
 						} else if(redirectionState == REDIR_IN) {
-							inputFilename = (char*) malloc((charPosition + 2) * sizeof(char));
+							inputFilename = (char*) malloc((charPosition + 1) * sizeof(char));
 							strcpy(inputFilename, stringBuffer);
 						}
 						redirectionState = NOREDIR;
