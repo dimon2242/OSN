@@ -57,7 +57,7 @@ int main() {
 				/*
 				charPosition + 2 for ended null-terminator
 				*/
-				stringBuffer = (char*) realloc(stringBuffer, (charPosition + 1) * sizeof(char));
+				stringBuffer = (char*) realloc(stringBuffer, (charPosition + 2) * sizeof(char));
 				if(stringBuffer == NULL) {
 					perror("Error allocation of memory");
 					return EXIT_FAILURE;
