@@ -62,7 +62,7 @@ int main() {
 					perror("Error allocation of memory");
 					return EXIT_FAILURE;
 				}
-				stringBuffer[charPosition] = buffer;
+				*(stringBuffer + charPosition) = buffer;
 			} else {
 				
 				if(charPosition != 0) {
