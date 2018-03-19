@@ -58,7 +58,6 @@ int main() {
 			if(strrchr(separators, buffer) == NULL) {
 				if(((memMultiplier - 1) == charPosition)) {
 					memMultiplier *= sizeof(char) * 2;
-					printf("NEED MEM %d\n", memMultiplier);
 					tempPtr = (char*) realloc(stringBuffer, memMultiplier);
 					if(tempPtr == NULL) {
 						perror("Error allocation of memory");
