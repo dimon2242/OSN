@@ -23,6 +23,7 @@ int main() {
 	while(TRUE) {
 		char *argv[MAXARGS + 1];
 		char *stringBuffer = NULL;
+		char *tempPtr;
 		int buffer;
 		int lineIterator = -1;
 		unsigned int charPosition = 0;
@@ -57,11 +58,13 @@ int main() {
 				/*
 				charPosition + 2 for ended null-terminator
 				*/
-				stringBuffer = (char*) realloc(stringBuffer, (charPosition + 2) * sizeof(char));
-				if(stringBuffer == NULL) {
+				tempPtr = (char*) realloc(stringBuffer, (charPosition + 1) * sizeof(char) * 2);
+				if(tempPtr == NULL) {
 					perror("Error allocation of memory");
 					return EXIT_FAILURE;
 				}
+				stringBuffer = tempPtr;
+				tempPtr = NULL;
 				*(stringBuffer + charPosition) = buffer;
 			} else {
 				
@@ -99,6 +102,9 @@ int main() {
 						perror("dup2 in");
 						return EXIT_FAILURE;
 					}
+				} else {
+					perror("open error");
+					return EXIT_FAILURE;
 				}
 			}
 			if(outputFilename != NULL) {
@@ -107,10 +113,14 @@ int main() {
 						perror("dup2 out");
 						return EXIT_FAILURE;
 					}
+				} else {
+					perror("open error");
+					return EXIT_FAILURE;
 				}
 			}
 			if(execvp(*argv, argv) == -1) {
 				perror("execvp error");
+				return EXIT_FAILURE;
 			}
 		}
 
@@ -119,7 +129,7 @@ int main() {
 			perror("wait error");
 		}
 
-		for(int i = 0; i <= lineIterator; i++) {
+		for(int i = 0; i < lineIterator + 1; i++) {
 			free(argv[i]);
 		}
 		free(inputFilename);
