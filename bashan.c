@@ -25,6 +25,7 @@ int main() {
 		char *stringBuffer = NULL;
 		char *tempPtr;
 		int buffer;
+		int memMultiplier = 1;
 		int lineIterator = -1;
 		unsigned int charPosition = 0;
 		int iFd = -1;
@@ -55,16 +56,17 @@ int main() {
 				}
 			}
 			if(strrchr(separators, buffer) == NULL) {
-				/*
-				charPosition + 2 for ended null-terminator
-				*/
-				tempPtr = (char*) realloc(stringBuffer, (charPosition + 1) * sizeof(char) * 2);
-				if(tempPtr == NULL) {
-					perror("Error allocation of memory");
-					return EXIT_FAILURE;
+				if(((memMultiplier - 1) == charPosition)) {
+					memMultiplier *= sizeof(char) * 2;
+					printf("NEED MEM %d\n", memMultiplier);
+					tempPtr = (char*) realloc(stringBuffer, memMultiplier);
+					if(tempPtr == NULL) {
+						perror("Error allocation of memory");
+						return EXIT_FAILURE;
+					}
+					stringBuffer = tempPtr;
+					tempPtr = NULL;
 				}
-				stringBuffer = tempPtr;
-				tempPtr = NULL;
 				*(stringBuffer + charPosition) = buffer;
 			} else {
 				
@@ -81,6 +83,7 @@ int main() {
 						argv[++lineIterator] = stringBuffer;
 					}
 					charPosition = 0;
+					memMultiplier = 1;
 					stringBuffer = NULL;
 
 					if(buffer == '\n') {
