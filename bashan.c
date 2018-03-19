@@ -69,19 +69,15 @@ int main() {
 					*(stringBuffer + charPosition) = '\0';			
 					if((redirectionState != NOREDIR) && !alreadySpaced) {
 						if(redirectionState == REDIR_OUT) {
-							outputFilename = (char*) malloc((charPosition + 1) * sizeof(char));
-							strcpy(outputFilename, stringBuffer);
+							outputFilename = stringBuffer;
 						} else if(redirectionState == REDIR_IN) {
-							inputFilename = (char*) malloc((charPosition + 1) * sizeof(char));
-							strcpy(inputFilename, stringBuffer);
+							inputFilename = stringBuffer;
 						}
 						redirectionState = NOREDIR;
 					} else {
-						argv[++lineIterator] = (char*) malloc((charPosition + 1) * sizeof(char));
-						strcpy(argv[lineIterator], stringBuffer);
+						argv[++lineIterator] = stringBuffer;
 					}
 					charPosition = 0;
-					free(stringBuffer);
 					stringBuffer = NULL;
 
 					if(buffer == '\n') {
