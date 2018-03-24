@@ -103,7 +103,7 @@ int main() {
 					if(dup2(iFd, STDIN_FILE0) == -1) {
 						perror("dup2 in");
 						close(oFd);
-						close(ifd);
+						close(iFd);
 						return EXIT_FAILURE;
 					}
 				} else {
@@ -116,7 +116,7 @@ int main() {
 					if(dup2(oFd, STDOUT_FILE0) == -1) {
 						perror("dup2 out");
 						close(oFd);
-						close(ifd);
+						close(iFd);
 						return EXIT_FAILURE;
 					}
 				} else {
@@ -141,6 +141,6 @@ int main() {
 		free(inputFilename);
 		free(outputFilename);
 		close(oFd);
-		close(ifd);
+		close(iFd);
 	}
 }
