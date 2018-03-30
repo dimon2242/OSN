@@ -158,12 +158,10 @@ int main() {
 		if(pipeIsEnabled) {
 			pid2 = fork();
 			if(!pid2) {
-				if(pipeIsEnabled) {
-					close(pipefd[1]);
-					if(dup2(pipefd[0], STDIN_FILE0) == -1) {
-						perror("dup2 pipefd[1]");
-						return EXIT_FAILURE;
-					}
+				close(pipefd[1]);
+				if(dup2(pipefd[0], STDIN_FILE0) == -1) {
+					perror("dup2 pipefd[1]");
+					return EXIT_FAILURE;
 				}
 				if(genericFilename != NULL) {
 					if((oFd = open(genericFilename, O_WRONLY | O_CREAT | O_TRUNC, PERMS)) != -1) {
