@@ -179,8 +179,6 @@ int main() {
 					return EXIT_FAILURE;
 				}
 			}
-		}
-		if(pipeIsEnabled) {
 			close(pipefd[0]);
 			close(pipefd[1]);
 			wait(NULL);
@@ -195,9 +193,8 @@ int main() {
 		}
 		free(inputFilename);
 		free(outputFilename);
-		if(pipeIsEnabled && (genericFilename != NULL)) {
-			free(genericFilename);
-		}
+		free(genericFilename);
+		
 		close(oFd);
 		close(iFd);
 	}
