@@ -38,6 +38,7 @@ int main() {
 		char *outputFilename = NULL;
 		char *genericFilename = NULL; // Generic file name for second process
 		int pipeIsEnabled = FALSE;
+		int ignoreSpace = FALSE;
 		int pipefd[2];
 
 		putchar('>');
@@ -48,12 +49,17 @@ int main() {
 				putchar('\n');
 				return EXIT_SUCCESS;
 			}
-			if((buffer == ' ') && alreadySpaced) {
-				continue;
-			} else if((buffer != ' ') && (buffer != '>') && (buffer != '<') && (buffer != '|') && alreadySpaced) {
-				alreadySpaced = FALSE;
-			} else if((buffer == ' ') || (buffer == '>') || (buffer == '<') || (buffer == '|')) {
-				alreadySpaced = TRUE;
+			if(buffer == '"') {
+				ignoreSpace ^= TRUE;
+			}
+			if(!ignoreSpace) {
+				if((buffer == ' ') && alreadySpaced) {
+					continue;
+				} else if((buffer != ' ') && (buffer != '>') && (buffer != '<') && (buffer != '|') && alreadySpaced) {
+					alreadySpaced = FALSE;
+				} else if((buffer == ' ') || (buffer == '>') || (buffer == '<') || (buffer == '|')) {
+					alreadySpaced = TRUE;
+				}
 			}
 			if(strrchr(separators, buffer) == NULL) {
 				if(((memMultiplier - 1) == charPosition)) {
