@@ -18,6 +18,10 @@
 #define REDIR_OUT 1
 #define NOREDIR 2
 
+int isSeparator(int buffer) {
+	return (buffer == ' ') || (buffer == '>') || (buffer == '<') || (buffer == '|');
+}
+
 int main() {
 	char separators[] = {' ', '\n', '<', '>', '|', '\0'};
 	while(TRUE) {
@@ -26,7 +30,7 @@ int main() {
 		char *stringBuffer = NULL;
 		char *tempPtr;
 		int buffer;
-		int memMultiplier = 1;
+		int allocatedMem = 1;
 		int lineIterator = -1;
 		int additionalLineIterator = -1;
 		unsigned int charPosition = 0;
@@ -55,16 +59,16 @@ int main() {
 			if(!ignoreSpace) {
 				if((buffer == ' ') && alreadySpaced) {
 					continue;
-				} else if((buffer != ' ') && (buffer != '>') && (buffer != '<') && (buffer != '|') && alreadySpaced) {
+				} else if(!isSeparator(buffer) && alreadySpaced) {
 					alreadySpaced = FALSE;
-				} else if((buffer == ' ') || (buffer == '>') || (buffer == '<') || (buffer == '|')) {
+				} else if(isSeparator(buffer)) {
 					alreadySpaced = TRUE;
 				}
 			}
 			if(strrchr(separators, buffer) == NULL) {
-				if(((memMultiplier - 1) == charPosition)) {
-					memMultiplier *= sizeof(char) * 2;
-					tempPtr = (char*) realloc(stringBuffer, memMultiplier);
+				if(((allocatedMem - 1) == charPosition)) {
+					allocatedMem *= sizeof(char) * 2;
+					tempPtr = (char*) realloc(stringBuffer, allocatedMem);
 					if(tempPtr == NULL) {
 						perror("Error allocation of memory");
 						return EXIT_FAILURE;
@@ -95,7 +99,7 @@ int main() {
 						}
 					}
 					charPosition = 0;
-					memMultiplier = 1;
+					allocatedMem = 1;
 					stringBuffer = NULL;
 					if(buffer == '\n') {
 						break;
