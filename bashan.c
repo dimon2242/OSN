@@ -53,6 +53,7 @@ int main() {
 				putchar('\n');
 				return EXIT_SUCCESS;
 			}
+			/* Allowed string as argument */
 			if(buffer == '"') {
 				ignoreSpace ^= TRUE;
 			}
